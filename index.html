@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .task {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .subtask {
+            margin-left: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <div>
+        <h2>Add/Edit Task</h2>
+        <form id="taskForm">
+            <input type="hidden" id="taskId">
+            <label for="title">Title:</label>
+            <input type="text" id="title" required>
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description" required></textarea>
+            <br>
+            <label for="priority">Priority:</label>
+            <select id="priority" required>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <br>
+            <label for="subtasks">Subtasks:</label>
+            <div id="subtasks">
+                <input type="text" class="subtask-input">
+                <button type="button" onclick="addSubtask()">Add Subtask</button>
+            </div>
+            <br>
+            <button type="submit">Save Task</button>
+        </form>
+    </div>
+    <div id="tasks"></div>
+
+    <!-- Subtask Edit Modal -->
+    <div id="subtaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSubtaskModal()">&times;</span>
+            <h2>Edit Subtask</h2>
+            <form id="subtaskForm">
+                <input type="hidden" id="subtaskTaskId">
+                <input type="hidden" id="subtaskId">
+                <label for="subtaskValue">Subtask:</label>
+                <input type="text" id="subtaskValue" required>
+                <br>
+                <button type="submit">Save Subtask</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <div id="subtaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSubtaskModal()">&times;</span>
+            <h2>Edit Subtask</h2>
+            <form id="subtaskForm">
+                <input type="hidden" id="subtaskTaskId">
+                <input type="hidden" id="subtaskId">
+                <label for="subtaskValue">Subtask:</label>
+                <input type="text" id="subtaskValue" required>
+                <br>
+                <label for="subtaskStatus">Status:</label>
+                <input type="checkbox" id="subtaskStatus">
+                <br>
+                <button type="submit">Save Subtask</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
