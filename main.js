@@ -33,8 +33,8 @@ function loadTasks() {
                     ${task.subtasks.map(subtask => `
                         <div class="subtask">
                             <p>${subtask.value} - ${subtask.status ? 'Complete' : 'Incomplete'}</p>
-                            <button onclick="openEditSubtaskModal(${task.id}, ${subtask.id}, '${subtask.value}', ${subtask.status})">Edit</button>
-                            <button onclick="deleteSubtask(${task.id}, ${subtask.id})">Delete</button>
+                            <button onclick="openEditSubtaskModal(${task.id}, ${subtask.id}, '${subtask.value}', ${subtask.status})">EditSubtask</button>
+                            <button onclick="deleteSubtask(${task.id}, ${subtask.id})">DeleteSubtask</button>
                         </div>
                     `).join('')}
                 </div>
