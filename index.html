@@ -71,6 +71,12 @@
             </select>
             <br>
             <label for="subtasks">Subtasks:</label>
+            <div id="users">
+                <label for="userList">Select User:</label>
+                <select id="userList">
+                   
+                </select>
+            </div>
             <div id="subtasks">
                 <input type="text" class="subtask-input">
                 <button type="button" onclick="addSubtask()">Add Subtask</button>
@@ -92,22 +98,6 @@
                 <label for="subtaskValue">Subtask:</label>
                 <input type="text" id="subtaskValue" required>
                 <br>
-                <button type="submit">Save Subtask</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="main.js"></script>
-    <div id="subtaskModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeSubtaskModal()">&times;</span>
-            <h2>Edit Subtask</h2>
-            <form id="subtaskForm">
-                <input type="hidden" id="subtaskTaskId">
-                <input type="hidden" id="subtaskId">
-                <label for="subtaskValue">Subtask:</label>
-                <input type="text" id="subtaskValue" required>
-                <br>
                 <label for="subtaskStatus">Status:</label>
                 <input type="checkbox" id="subtaskStatus">
                 <br>
@@ -115,5 +105,7 @@
             </form>
         </div>
     </div>
+
+    <script src="main.js"></script>
 </body>
 </html>
