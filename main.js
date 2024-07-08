@@ -5,7 +5,7 @@ let usersArray = [];
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
     loadUsersMenu();
-    
+    allUsersEdit();
 
     document.getElementById('taskForm').addEventListener('submit', handleTaskSubmit);
     document.getElementById('subtaskForm').addEventListener('submit', handleSubtaskSubmit);
@@ -260,6 +260,144 @@ function loadUsersMenu() {
         userListSelect.innerHTML = usersArray.map(user => `
             <option value="${user.id}">${user.username}</option>
         `).join('');
+        allUsersEdit();
     })
+   
     .catch(error => console.error('Error:', error));
 }
+
+/////// anlegen
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('userForm').addEventListener('submit', handleUserSubmit);
+});
+
+function handleUserSubmit(event) {
+    event.preventDefault();
+    const username = document.getElementById('newUsername').value;
+    const password = document.getElementById('newPassword').value;
+    const passwordConfirm = document.getElementById('confirmPassword').value;
+
+    const userData = {
+        username,
+        password,
+        password_confirm: passwordConfirm
+    };
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+    };
+
+    fetch('http://127.0.0.1:8000/register/', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(`Error: ${data.error}`);
+            } else {
+                alert('User created successfully');
+                document.getElementById('userForm').reset();
+                loadUsersMenu();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function allUsersEdit() {
+    const allUsersContainer = document.getElementById('allUsersContainer');
+    allUsersContainer.innerHTML = ''; // Clear previous content
+
+    usersArray.forEach(user => {
+        const userElement = document.createElement('div');
+        userElement.className = 'user';
+        userElement.innerHTML = `
+            <p>ID: ${user.id}</p>
+            <p>Username: ${user.username}</p>
+            <button onclick="editUser(${user.id})">Bearbeiten</button>
+            <button onclick="deleteUser(${user.id})">Löschen</button>
+        `;
+        allUsersContainer.appendChild(userElement);
+    });
+}
+
+////*css*/`
+function editUser(userId) {
+    const user = usersArray.find(user => user.id === userId);
+    document.getElementById('editUserId').value = user.id;
+    document.getElementById('editUsername').value = user.username;
+    document.getElementById('editPassword').value = ''; // Leeres Passwortfeld
+
+    openEditUserModal();
+}
+
+// Funktion zum Öffnen des Modals
+function openEditUserModal() {
+    document.getElementById('editUserModal').style.display = 'block';
+}
+
+// Funktion zum Schließen des Modals
+function closeEditUserModal() {
+    document.getElementById('editUserModal').style.display = 'none';
+}
+
+// Event-Listener für das Bearbeiten-Formular
+document.getElementById('editUserForm').addEventListener('submit', handleUserEditSubmit);
+
+function handleUserEditSubmit(event) {
+    event.preventDefault();
+    const userId = document.getElementById('editUserId').value;
+    const username = document.getElementById('editUsername').value;
+    const password = document.getElementById('editPassword').value;
+
+    const userData = {
+        username,
+    };
+
+    if (password) {
+        userData.password = password;
+    }
+
+    const requestOptions = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${STORAGE_TOKEN}`
+        },
+        body: JSON.stringify(userData)
+    };
+
+    fetch(`http://127.0.0.1:8000/user/${userId}/`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(`Error: ${data.error}`);
+            } else {
+                alert('User updated successfully');
+                closeEditUserModal();
+                loadUsersMenu();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function deleteUser(userId) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Token ${STORAGE_TOKEN}`
+        }
+    };
+
+    fetch(`http://127.0.0.1:8000/user/${userId}/`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+            alert('User deleted successfully');
+            loadUsersMenu();
+        })
+        .catch(error => console.error('Error:', error));
+}
+

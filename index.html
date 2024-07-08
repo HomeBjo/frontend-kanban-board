@@ -8,6 +8,8 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            display: flex;
+            justify-content: space-around;
         }
         .task {
             border: 1px solid #ccc;
@@ -49,9 +51,50 @@
             text-decoration: none;
             cursor: pointer;
         }
+        .sep2{
+            margin: 39px;
+            margin-left: 160px;
+        }
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
+<div class="sep">
     <h1>Task Manager</h1>
     <div>
         <h2>Add/Edit Task</h2>
@@ -105,7 +148,50 @@
             </form>
         </div>
     </div>
+</div>
+   
+
+<div class="sep2">
+    <h1>User Anlegen</h1>
+    <form id="userForm">
+        <label for="newUsername">Username:</label>
+        <input type="text" id="newUsername" required>
+        <br>
+        <label for="newPassword">Password:</label>
+        <input type="password" id="newPassword" required>
+        <br>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+        <br>
+        <button type="submit">Create User</button>
+    </form>
+</div>
+
+<div class="sep2">
+    <h1>User Bearbeiten</h1>
+    <div id="allUsersContainer"></div>
+   
+</div>
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEditUserModal()">&times;</span>
+        <h2>Benutzer bearbeiten</h2>
+        <form id="editUserForm">
+            <input type="hidden" id="editUserId">
+            <label for="editUsername">Username:</label>
+            <input type="text" id="editUsername" required>
+            <br>
+            <label for="editPassword">Neues Passwort (optional):</label>
+            <input type="password" id="editPassword">
+            <br>
+            <button type="submit">Ändern</button>
+        </form>
+    </div>
+</div>
+
+
 
     <script src="main.js"></script>
+
 </body>
 </html>
